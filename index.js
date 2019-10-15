@@ -4,7 +4,7 @@ const URL = 'https://tickets.spacecenter.org/webstore/shop/ViewItems.aspx?CG=SCH
 const month = new Date().getMonth();
 
 async function run() {
-    const browser = await puppeteer.launch({headless: false});
+    const browser = await puppeteer.launch();
     const page = await browser.newPage();
 
     // open page
