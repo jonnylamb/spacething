@@ -1,6 +1,6 @@
 FROM kinlan/puppets:latest
 
-COPY index.js package.json yarn.lock /
+COPY package.json yarn.lock /
 RUN yarn install
 
 # Add user so we don't need --no-sandbox.
@@ -11,6 +11,8 @@ RUN groupadd -r pptruser && useradd -r -g pptruser -G audio,video pptruser \
 
 # Run everything after as non-privileged user.
 USER pptruser
+
+COPY index.js /
 
 EXPOSE 8084
 ENTRYPOINT ["dumb-init", "--"]
