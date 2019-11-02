@@ -3,6 +3,8 @@ const puppeteer = require('puppeteer');
 const URL = 'https://tickets.spacecenter.org/webstore/shop/ViewItems.aspx?CG=SCHGACG2017&C=SCHGAC2017';
 const month = new Date().getMonth();
 
+let logs = '';
+
 async function run() {
     // ouch...
     const browser = await puppeteer.launch({args: ['--no-sandbox']});
@@ -19,6 +21,7 @@ async function run() {
         await page.waitFor(5000);
 
         async function isJanuary() {
+            logs = logs + 'call to isJanuary\n';
             const selected = await page.evaluate(() => {
                 const s = document.querySelector('#page > div:nth-child(6) > div.multi-time-selector-modal.calendar-modal.event-time.ng-scope > div.modal.info-modal.w-auto-c.ng-scope > div > div:nth-child(3) > div > div > div > div > div.calendar-header > div.row.month-name > div.c.c-40-all.month > span > select')
                 return s.options[s.selectedIndex].text;
@@ -42,6 +45,10 @@ async function run() {
         }
 
     } catch (error) {
+        console.log(logs);
+        console.log('');
+        console.log(await page.evaluate(() => document.body.innerHTML));
+        console.log('');
         console.error(error);
     }
 
