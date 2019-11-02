@@ -18,24 +18,12 @@ async function run() {
         await page.click('#page > div.container.main > div:nth-child(4) > div.viewItems.ng-scope > div.module.ng-scope > div.sub-category.b-b-all.ng-scope.open > div.list-container.m-b-all > div > div:nth-child(8) > div > div.row.ng-scope > div > div.row.m-t-all > div.c.c-100-c > span > button')
         await page.waitFor(5000);
 
-        let januaryTries = 0;
-
         async function isJanuary() {
-            try {
-                const selected = await page.evaluate(() => {
-                    const s = document.querySelector('#page > div:nth-child(6) > div.multi-time-selector-modal.calendar-modal.event-time.ng-scope > div.modal.info-modal.w-auto-c.ng-scope > div > div:nth-child(3) > div > div > div > div > div.calendar-header > div.row.month-name > div.c.c-40-all.month > span > selecta')
-                    return s.options[s.selectedIndex].text;
-                })
-                return selected === 'January';
-            } catch (error) {
-                if (januaryTries++ < 3) {
-                    // maybe it's not loaded yet?
-                    await page.waitFor(5000);
-                    return false;
-                }
-
-                throw error;
-            }
+            const selected = await page.evaluate(() => {
+                const s = document.querySelector('#page > div:nth-child(6) > div.multi-time-selector-modal.calendar-modal.event-time.ng-scope > div.modal.info-modal.w-auto-c.ng-scope > div > div:nth-child(3) > div > div > div > div > div.calendar-header > div.row.month-name > div.c.c-40-all.month > span > select')
+                return s.options[s.selectedIndex].text;
+            })
+            return selected === 'January';
         };
 
         while (!await isJanuary()) {
