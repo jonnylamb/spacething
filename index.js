@@ -7,8 +7,6 @@ async function run(printErr) {
     // ouch...
     const browser = await puppeteer.launch({args: ['--no-sandbox']});
 
-    console.log('gogogo');
-
     try {
         const page = await browser.newPage();
 
