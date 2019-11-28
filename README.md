@@ -1,17 +1,24 @@
 I made this thing to check whether there were tickets for the VIP tour
 of the Johnson Space Center available for a particluar day.
 
-Build:
+*Note*: sandbox is broken for some reason.
+
+Run ad-hoc:
+```
+yarnpkg start
+```
+
+Build container:
 ```
 docker build -t spacething .
 ```
 
-Run interactively:
+Run container interactively:
 ```
 docker run -it --rm spacething
 ```
 
-Run in cron:
+Run container in cron:
 ```
 docker run -t --rm spacething
 ```
