@@ -1,11 +1,12 @@
 const puppeteer = require('puppeteer');
 
 const URL = 'https://tickets.spacecenter.org/webstore/shop/ViewItems.aspx?CG=SCHGACG2017&C=SCHGAC2017';
-const month = new Date().getMonth();
+const TRIES = 3;
 
 async function run(printErr) {
     // ouch...
     const browser = await puppeteer.launch({args: ['--no-sandbox']});
+    let success = false;
 
     try {
         const page = await browser.newPage();
@@ -39,6 +40,7 @@ async function run(printErr) {
         const available = dayIsDisabled !== 'true';
         if (available) {
             console.log('booking for day (13th Jan) could be available');
+            success = true;
         }
 
     } catch (error) {
@@ -48,11 +50,14 @@ async function run(printErr) {
     }
 
     browser.close();
+
+    return success;
 }
 
 async function threeTimes() {
-    for (i = 0; i < 3; i++) {
-        await run(i == 2);
+    for (i = 0; i < TRIES; i++) {
+        if (await run(i == (TRIES-1)))
+            return;
     }
 }
 
